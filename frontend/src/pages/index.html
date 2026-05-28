@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Service | Barangay Talolong</title>
+</head>
+<body class="auth-body">
+<div class="auth-page">
+  <div class="auth-brand">
+    <div class="auth-seal">🏛️</div>
+    <div class="auth-brand-title">Barangay Talolong</div>
+    <div class="auth-brand-sub">Electronic Services Portal</div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-card-header">
+      <h2>Sign In</h2>
+      <p>Access your resident account</p>
+    </div>
+    <div id="alert-box"></div>
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="email" class="form-control" placeholder="your@email.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="password" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="toggle-pw" onclick="togglePw()">👁</button>
+        </div>
+      </div>
+      <button type="submit" id="login-btn" class="btn btn-primary btn-full btn-lg" style="margin-top:6px;">Sign In</button>
+    </form>
+    <div class="auth-footer">
+      <p>New resident? <a href="/register.html">Register here</a></p>
+
+    </div>
+  </div>
+  <p class="copyright">© 2024 Barangay Talolong, Tayabas, Quezon</p>
+</div>
+<div id="toast-container"></div>
+</body>
+</html>

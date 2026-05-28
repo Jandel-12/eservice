@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Service | Register — Barangay Talolong</title>
+</head>
+<body class="auth-body">
+
+<div class="reg-page">
+
+  <div class="reg-header">
+    <div class="reg-brand">
+      <span class="reg-seal">🏛️</span>
+      <div>
+        <div class="reg-brand-title">Barangay Talolong E-Service</div>
+        <div class="reg-brand-sub">Resident Registration</div>
+      </div>
+    </div>
+    <a href="/index.html" class="btn btn-outline btn-sm">← Back to Login</a>
+  </div>
+
+  <div class="reg-body">
+    <div class="reg-card">
+      <div class="reg-card-header">
+        <h2>Create Resident Account</h2>
+        <p>Fill out the form below. Your account will be reviewed and approved by the barangay admin before you can log in.</p>
+      </div>
+
+      <div id="alert-box"></div>
+      <div id="success-box" style="display:none;" class="success-panel">
+        <div class="success-icon">✅</div>
+        <h3>Registration Submitted!</h3>
+        <p>Your account is under review. The barangay admin will approve your registration. You will be able to log in once approved.</p>
+        <a href="/index.html" class="btn btn-primary" style="margin-top:16px;">Go to Login</a>
+      </div>
+
+      <form id="reg-form" novalidate>
+        <div class="reg-section-title">Personal Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name *</label>
+            <input type="text" id="firstName" class="form-control" placeholder="Juan" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name *</label>
+            <input type="text" id="lastName" class="form-control" placeholder="Dela Cruz" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date of Birth *</label>
+            <input type="date" id="birthdate" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Gender *</label>
+            <select id="gender" class="form-control" required>
+              <option value="">Select gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Home Address in Barangay Talolong *</label>
+          <input type="text" id="address" class="form-control" placeholder="Purok / Street, Barangay Talolong, Tayabas" required />
+        </div>
+
+        <div class="reg-section-title" style="margin-top:28px;">Contact & Account Details</div>
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" id="phone" class="form-control" placeholder="09XXXXXXXXX" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" id="email" class="form-control" placeholder="juan@email.com" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input type="password" id="password" class="form-control" placeholder="Min. 6 characters" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password *</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" required />
+          </div>
+        </div>
+
+        <div class="reg-note">
+          <span>ℹ️</span>
+          <p>By registering, you confirm that you are a resident of Barangay Talolong, Tayabas, Quezon Province, and that the information provided is accurate and true.</p>
+        </div>
+
+        <button type="submit" id="reg-btn" class="btn btn-primary btn-full btn-lg" style="margin-top:8px;">
+          Submit Registration
+        </button>
+        <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--gray-400);">
+          Already have an account? <a href="/index.html">Sign in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+</body>
+</html>

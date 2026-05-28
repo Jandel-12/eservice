@@ -1,0 +1,41 @@
+.reg-page { min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white); }
+
+.reg-header {
+  background: var(--navy); padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.reg-brand { display: flex; align-items: center; gap: 10px; }
+.reg-seal  { font-size: 24px; }
+.reg-brand-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); }
+.reg-brand-sub   { font-size: 10px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.reg-body { flex: 1; display: flex; justify-content: center; padding: 24px 16px 40px; }
+
+.reg-card {
+  background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200); padding: 24px 20px; width: 100%; max-width: 600px; height: fit-content;
+}
+.reg-card-header { margin-bottom: 22px; }
+.reg-card-header h2 { font-size: 22px; margin-bottom: 5px; }
+.reg-card-header p  { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+.reg-section-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--gold); margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--gold-pale);
+}
+
+.reg-note {
+  background: var(--info-light); border-radius: var(--radius);
+  padding: 11px 14px; display: flex; gap: 10px;
+  margin: 16px 0; border-left: 4px solid var(--info);
+}
+.reg-note p { font-size: 13px; color: var(--info); line-height: 1.5; }
+
+.success-panel {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 28px 16px;
+}
+.success-icon { font-size: 52px; margin-bottom: 14px; }
+.success-panel h3 { font-size: 20px; margin-bottom: 6px; color: var(--success); }
+.success-panel p  { font-size: 14px; color: var(--gray-600); max-width: 360px; line-height: 1.6; }

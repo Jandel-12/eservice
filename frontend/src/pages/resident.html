@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Service | My Appointments</title>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span style="font-size:22px;">🏛️</span>
+    <div>
+      <div class="brand-title">Barangay Talolong</div>
+      <div class="brand-sub">E-Service Portal</div>
+    </div>
+  </div>
+  <div class="navbar-right">
+    <div class="user-avatar" id="user-avatar">?</div>
+    <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);" onclick="logout()">Out</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- Desktop sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-label" style="margin-top:8px;">Menu</div>
+    <button class="sidebar-item active" data-tab="overview"><span class="sidebar-icon">🏠</span>Overview</button>
+    <button class="sidebar-item" data-tab="appointments"><span class="sidebar-icon">📅</span>My Appointments</button>
+    <button class="sidebar-item" data-tab="profile"><span class="sidebar-icon">👤</span>Profile</button>
+    <div style="margin-top:auto;padding-top:16px;">
+      <button class="sidebar-item" onclick="logout()"><span class="sidebar-icon">🚪</span>Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="welcome-msg">Welcome!</h2>
+          <p style="font-size:13px;color:var(--gray-400);margin-top:2px;" id="welcome-date"></p>
+        </div>
+        <button class="btn btn-gold" onclick="openModal('appt-modal')">+ New Request</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card highlight">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-value" id="stat-pending">—</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="stat-approved">—</div>
+          <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏁</div>
+          <div class="stat-value" id="stat-done">—</div>
+          <div class="stat-label">Completed</div>
+        </div>
+      </div>
+
+      <!-- Info banner -->
+      <div class="info-banner">
+        <span class="info-icon">ℹ️</span>
+        <div>
+          <strong>How it works</strong>
+          <p>Select the document you need, choose your preferred appointment date and time. The barangay admin will review and confirm your appointment.</p>
+        </div>
+      </div>
+
+      <!-- Recent -->
+      <div class="card" style="margin-top:18px;">
+        <div class="card-header">
+          <h3 class="card-title" style="font-size:16px;">Recent Appointments</h3>
+          <button class="btn btn-sm btn-ghost" onclick="switchTab('appointments')">See all</button>
+        </div>
+        <div id="recent-list" style="padding:0;"></div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS -->
+    <div id="tab-appointments" class="tab-content">
+      <div class="section-header">
+        <h2 class="section-title">My Appointments</h2>
+        <button class="btn btn-gold" onclick="openModal('appt-modal')">+ New</button>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <select id="appt-filter" class="form-control" style="max-width:200px;" onchange="filterAppts()">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rescheduled">Rescheduled</option>
+          <option value="rejected">Rejected</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div id="appts-grid" class="appts-grid"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="tab-profile" class="tab-content">
+      <h2 class="section-title" style="margin-bottom:16px;">My Profile</h2>
+      <div class="card" style="max-width:520px;">
+        <div class="card-body" id="profile-body"></div>
+      </div>
+      <button class="btn btn-danger" style="margin-top:16px;max-width:520px;width:100%;" onclick="logout()">🚪 Sign Out</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- Bottom nav (mobile) -->
+<nav class="bottom-nav">
+  <button class="bnav-item active" data-tab="overview"><span class="bnav-icon">🏠</span>Home</button>
+  <button class="bnav-item" data-tab="appointments"><span class="bnav-icon">📅</span>Appointments</button>
+  <button class="bnav-item" data-tab="profile"><span class="bnav-icon">👤</span>Profile</button>
+</nav>
+
+<!-- NEW APPOINTMENT MODAL -->
+<div id="appt-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Request a Document</h3>
+      <button class="modal-close" onclick="closeModal('appt-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="appt-alert"></div>
+
+      <!-- Step indicator -->
+      <div class="step-indicator">
+        <div class="step active" id="step-dot-1"><span>1</span><label>Document</label></div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-2"><span>2</span><label>Schedule</label></div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-3"><span>3</span><label>Confirm</label></div>
+      </div>
+
+      <!-- Step 1: Document -->
+      <div id="modal-step-1">
+        <div class="form-group">
+          <label class="form-label">Document Type *</label>
+          <select id="doc-type" class="form-control">
+            <option value="">Select a document</option>
+            <option>Barangay Clearance</option>
+            <option>Barangay Residency</option>
+            <option>Barangay Certification</option>
+            <option>Barangay Indigency</option>
+            <option>Cedula</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purpose *</label>
+          <textarea id="doc-purpose" class="form-control" rows="3" placeholder="e.g. For employment requirements, scholarship application..."></textarea>
+        </div>
+        <div id="cedula-fields" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Occupation</label>
+              <input type="text" id="doc-occupation" class="form-control" placeholder="e.g. Farmer" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Civil Status</label>
+              <select id="doc-civil" class="form-control">
+                <option value="">Select</option>
+                <option>Single</option><option>Married</option><option>Widowed</option><option>Separated</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Income (₱)</label>
+            <input type="text" id="doc-income" class="form-control" placeholder="e.g. 5000" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Schedule -->
+      <div id="modal-step-2" style="display:none;">
+        <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">Choose your preferred appointment date and time. The admin will confirm or reschedule as needed.</p>
+        <div class="form-group">
+          <label class="form-label">Preferred Date *</label>
+          <input type="date" id="appt-date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Time *</label>
+          <div class="time-grid">
+            <button type="button" class="time-btn" data-time="8:00 AM">8:00 AM</button>
+            <button type="button" class="time-btn" data-time="9:00 AM">9:00 AM</button>
+            <button type="button" class="time-btn" data-time="10:00 AM">10:00 AM</button>
+            <button type="button" class="time-btn" data-time="11:00 AM">11:00 AM</button>
+            <button type="button" class="time-btn" data-time="1:00 PM">1:00 PM</button>
+            <button type="button" class="time-btn" data-time="2:00 PM">2:00 PM</button>
+            <button type="button" class="time-btn" data-time="3:00 PM">3:00 PM</button>
+            <button type="button" class="time-btn" data-time="4:00 PM">4:00 PM</button>
+          </div>
+          <input type="hidden" id="appt-time" />
+        </div>
+      </div>
+
+      <!-- Step 3: Confirm -->
+      <div id="modal-step-3" style="display:none;">
+        <div class="confirm-summary" id="confirm-summary"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="modal-back-btn" style="display:none;" onclick="modalBack()">← Back</button>
+      <button class="btn btn-primary" id="modal-next-btn" onclick="modalNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+</body>
+</html>

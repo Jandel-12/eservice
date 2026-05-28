@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Service | Admin Panel</title>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span style="font-size:22px;">🏛️</span>
+    <div>
+      <div class="brand-title">Admin Panel</div>
+      <div class="brand-sub">Barangay Talolong</div>
+    </div>
+  </div>
+  <div class="navbar-right">
+    <div class="user-avatar" style="background:var(--gold);color:var(--navy);font-size:12px;">ADM</div>
+    <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);" onclick="logout()">Out</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-label" style="margin-top:8px;">Dashboard</div>
+    <button class="sidebar-item active" data-tab="overview"><span class="sidebar-icon">📊</span>Overview</button>
+    <div class="sidebar-label" style="margin-top:8px;">Management</div>
+    <button class="sidebar-item" data-tab="registrations"><span class="sidebar-icon">🧑‍🤝‍🧑</span>Registrations<span id="badge-reg" class="notif-badge" style="display:none;"></span></button>
+    <button class="sidebar-item" data-tab="residents"><span class="sidebar-icon">👥</span>Residents</button>
+    <button class="sidebar-item" data-tab="appointments"><span class="sidebar-icon">📅</span>Appointments<span id="badge-appts" class="notif-badge" style="display:none;"></span></button>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Overview</h2>
+          <p style="font-size:13px;color:var(--gray-400);margin-top:2px;" id="admin-date"></p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadAll()">↻ Refresh</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card highlight">
+          <div class="stat-icon">👥</div>
+          <div class="stat-value" id="s-residents">—</div>
+          <div class="stat-label">Residents</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-value" id="s-pending-reg">—</div>
+          <div class="stat-label">Pending Reg</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="s-total-appts">—</div>
+          <div class="stat-label">Appointments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔔</div>
+          <div class="stat-value" id="s-pending-appts">—</div>
+          <div class="stat-label">Pending Appts</div>
+        </div>
+      </div>
+      <div class="overview-panels">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size:15px;">Pending Registrations</h3>
+            <button class="btn btn-sm btn-ghost" onclick="switchTab('registrations')">Manage</button>
+          </div>
+          <div id="ov-reg-list" style="padding:0;"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size:15px;">Pending Appointments</h3>
+            <button class="btn btn-sm btn-ghost" onclick="switchTab('appointments')">Manage</button>
+          </div>
+          <div id="ov-appt-list" style="padding:0;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTRATIONS -->
+    <div id="tab-registrations" class="tab-content">
+      <div class="section-header">
+        <h2 class="section-title">Registrations</h2>
+        <select id="reg-filter" class="form-control" style="max-width:160px;" onchange="filterRegistrations()">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="">All</option>
+        </select>
+      </div>
+      <div id="reg-grid" class="users-grid"></div>
+    </div>
+
+    <!-- RESIDENTS -->
+    <div id="tab-residents" class="tab-content">
+      <div class="section-header"><h2 class="section-title">All Residents</h2></div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Joined</th></tr></thead>
+            <tbody id="residents-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS -->
+    <div id="tab-appointments" class="tab-content">
+      <div class="section-header">
+        <h2 class="section-title">Appointments</h2>
+        <select id="appt-filter" class="form-control" style="max-width:160px;" onchange="filterAdminAppts()">
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rescheduled">Rescheduled</option>
+          <option value="rejected">Rejected</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <!-- Mobile: cards -->
+      <div id="appts-mobile" class="appts-grid" style="display:block;"></div>
+      <!-- Desktop: table -->
+      <div class="card" id="appts-desktop" style="display:none;">
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Resident</th><th>Document</th><th>Date & Time</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="appts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Bottom nav -->
+<nav class="bottom-nav">
+  <button class="bnav-item active" data-tab="overview"><span class="bnav-icon">📊</span>Overview</button>
+  <button class="bnav-item" data-tab="registrations"><span class="bnav-icon">🧑‍🤝‍🧑</span>Register</button>
+  <button class="bnav-item" data-tab="appointments"><span class="bnav-icon">📅</span>Appts</button>
+  <button class="bnav-item" data-tab="residents"><span class="bnav-icon">👥</span>Residents</button>
+</nav>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Reject Registration</h3>
+      <button class="modal-close" onclick="closeModal('reject-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:var(--gray-600);margin-bottom:14px;">Provide a reason — this will be shown to the applicant.</p>
+      <div class="form-group">
+        <label class="form-label">Reason *</label>
+        <textarea id="reject-reason" class="form-control" rows="3" placeholder="e.g. Not a Barangay Talolong resident..."></textarea>
+      </div>
+      <input type="hidden" id="reject-user-id" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('reject-modal')">Cancel</button>
+      <button id="reject-confirm-btn" class="btn btn-danger" onclick="confirmReject()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPOINTMENT ACTION MODAL -->
+<div id="appt-action-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Manage Appointment</h3>
+      <button class="modal-close" onclick="closeModal('appt-action-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="appt-detail" class="detail-grid"></div>
+      <div class="form-group">
+        <label class="form-label">Update Status</label>
+        <select id="action-status" class="form-control" onchange="toggleReschedFields()">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rescheduled">Rescheduled</option>
+          <option value="rejected">Rejected</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div id="resched-fields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">New Date</label>
+            <input type="date" id="resched-date" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Time</label>
+            <select id="resched-time" class="form-control">
+              <option value="">Select</option>
+              <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option>
+              <option>11:00 AM</option><option>1:00 PM</option><option>2:00 PM</option>
+              <option>3:00 PM</option><option>4:00 PM</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Admin Remarks</label>
+        <textarea id="action-remarks" class="form-control" rows="2" placeholder="Optional note for the resident..."></textarea>
+      </div>
+      <input type="hidden" id="action-appt-id" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('appt-action-modal')">Cancel</button>
+      <button id="action-submit-btn" class="btn btn-primary" onclick="submitAction()">Update</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+/* ── Info banner ── */
+.info-banner {
+  background: var(--gold-pale); border: 1px solid var(--gold);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.info-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.info-banner strong { display: block; color: var(--navy); font-size: 14px; margin-bottom: 3px; }
+.info-banner p { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+
+/* ── Step indicator ── */
+.step-indicator {
+  display: flex; align-items: center; margin-bottom: 24px;
+}
+.step {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  flex-shrink: 0;
+}
+.step span {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--gray-400); background: white;
+  transition: all 0.2s;
+}
+.step label { font-size: 10px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.05em; }
+.step.active span  { border-color: var(--navy); background: var(--navy); color: white; }
+.step.active label { color: var(--navy); }
+.step.done span    { border-color: var(--success); background: var(--success); color: white; }
+.step-line { flex: 1; height: 2px; background: var(--gray-200); margin: 0 6px; margin-bottom: 20px; }
+
+/* ── Time slot grid ── */
+.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 380px) { .time-grid { grid-template-columns: repeat(2, 1fr); } }
+.time-btn {
+  padding: 10px 6px; border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+  background: white; font-size: 13px; font-weight: 600; color: var(--gray-600);
+  cursor: pointer; transition: all 0.15s; font-family: 'Source Sans 3', sans-serif;
+}
+.time-btn:hover   { border-color: var(--navy); color: var(--navy); }
+.time-btn.selected { border-color: var(--navy); background: var(--navy); color: white; }
+
+/* ── Confirm summary ── */
+.confirm-summary {
+  background: var(--gray-100); border-radius: var(--radius-lg); padding: 16px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.summary-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid var(--gray-200); gap: 12px;
+  font-size: 14px;
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row span  { color: var(--gray-400); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; margin-top: 2px; }
+.summary-row strong { color: var(--navy); text-align: right; }
+
+/* ── Admin appointment detail ── */
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  background: var(--gray-100); border-radius: var(--radius); padding: 14px; margin-bottom: 16px;
+}
+@media (max-width: 400px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-item { display: flex; flex-direction: column; gap: 2px; }
+.detail-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); }
+.detail-value { font-size: 14px; color: var(--navy); font-weight: 600; }
+
+/* ── Admin user cards ── */
+.user-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); }
+.user-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.user-card-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--navy);
+  color: var(--gold); display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+.user-card-name  { font-weight: 700; color: var(--navy); font-size: 14px; line-height: 1.2; }
+.user-card-email { font-size: 12px; color: var(--gray-400); }
+.user-card-body  { font-size: 13px; color: var(--gray-600); line-height: 1.8; }
+.user-card-body strong { color: var(--navy); }
+.user-card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ── Notif badge ── */
+.notif-badge {
+  background: var(--danger); color: white; border-radius: 20px;
+  font-size: 10px; font-weight: 700; padding: 1px 6px; margin-left: auto;
+}
+.sidebar-item { display: flex !important; align-items: center; }
