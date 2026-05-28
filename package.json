@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "E-Service Information Management System for Barangay Talolong",
   "main": "backend/server.js",
-  "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
-    "build": "webpack --config frontend/webpack.config.js",
-    "build:watch": "webpack --config frontend/webpack.config.js --watch"
-  },
+ "scripts": {
+  "start": "node backend/server.js",
+  "dev": "nodemon backend/server.js",
+  "build": "npx webpack --config frontend/webpack.config.js"
+},
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
